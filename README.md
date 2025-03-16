@@ -55,8 +55,7 @@ streamlit run its-tutor.py
 - Try typing the answer instead.
 
 ## 👥 Contributors
-- **Your Name** - Developer
-- **Professor/Group Name** (if applicable)
+- **Yanet Niguse** - Developer
 
 ## 📜 License
 This project is **open-source** under the MIT License.
