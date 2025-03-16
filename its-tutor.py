@@ -5,8 +5,8 @@ import random  # For selecting random questions
 import pandas as pd  # For handling data in tables
 import matplotlib.pyplot as plt  # For plotting performance charts
 import speech_recognition as sr  # For speech-to-text functionality
-import sounddevice as sd  # For capturing audio input instead of PyAudio
-import numpy as np  # For processing audio data
+import numpy as np  # For handling numerical computations
+
 
 
 # --------------------------- INITIALIZE SESSION STATE --------------------------- #
@@ -88,27 +88,24 @@ def get_next_question():
 
 
 def recognize_speech():
-    """Capture audio using Sounddevice and process it with SpeechRecognition."""
+    """Allow users to upload an audio file for speech recognition."""
     recognizer = sr.Recognizer()
-    
-    duration = 5  # Record for 5 seconds
-    sample_rate = 44100  # Audio sample rate
-    st.write("Listening...")
 
-    try:
-        # Record audio using Sounddevice
-        audio_data = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype=np.int16)
-        sd.wait()  # Wait for recording to complete
+    # Streamlit file uploader
+    uploaded_file = st.file_uploader("Upload an audio file (WAV format)", type=["wav"])
+    
+    if uploaded_file is not None:
+        with sr.AudioFile(uploaded_file) as source:
+            st.write("Processing audio...")
+            audio = recognizer.record(source)  # Convert file to speech recognition format
+            
+            try:
+                return recognizer.recognize_google(audio)  # Convert speech to text
+            except sr.UnknownValueError:
+                return "Could not understand the audio."
+            except sr.RequestError:
+                return "Speech recognition service unavailable."
 
-        # Convert numpy array to SpeechRecognition format
-        audio = sr.AudioData(audio_data.tobytes(), sample_rate, 2)
-        return recognizer.recognize_google(audio)
-    
-    except sr.UnknownValueError:
-        return "Could not understand. Please try again."
-    
-    except sr.RequestError:
-        return "Speech recognition service unavailable."
 
 
 # --------------------------- MAIN APPLICATION (STREAMLIT UI) --------------------------- #
