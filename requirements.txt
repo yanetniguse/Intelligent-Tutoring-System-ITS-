@@ -1,0 +1,6 @@
+streamlit
+sqlite3
+pandas
+matplotlib
+speechrecognition
+pyaudio
