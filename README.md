@@ -62,5 +62,5 @@ streamlit run its-tutor.py
 This project is **open-source** under the MIT License.
 
 ## ⭐ Acknowledgments
-Special thanks to **[Your Professor's Name]** for guidance and support!
+Special thanks to **Austin Odera** for guidance and support!
 
