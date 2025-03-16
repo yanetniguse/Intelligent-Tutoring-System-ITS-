@@ -5,6 +5,9 @@ import random  # For selecting random questions
 import pandas as pd  # For handling data in tables
 import matplotlib.pyplot as plt  # For plotting performance charts
 import speech_recognition as sr  # For speech-to-text functionality
+import sounddevice as sd  # For capturing audio input instead of PyAudio
+import numpy as np  # For processing audio data
+
 
 # --------------------------- INITIALIZE SESSION STATE --------------------------- #
 # Streamlit session state variables store data across interactions
@@ -82,18 +85,31 @@ def get_next_question():
 # --------------------------- SPEECH RECOGNITION --------------------------- #
 # Allows users to speak their answers instead of typing
 
+
+
 def recognize_speech():
-    """Uses the microphone to capture and recognize the user's speech input."""
-    recognizer = sr.Recognizer()  # Initialize the speech recognizer
-    with sr.Microphone() as source:  # Use the default microphone
-        st.write("Listening...")  # Display a message indicating listening mode
-        try:
-            audio = recognizer.listen(source, timeout=5)  # Capture speech for 5 seconds
-            return recognizer.recognize_google(audio)  # Convert speech to text using Google API
-        except sr.UnknownValueError:
-            return "Could not understand. Please try again."  # If speech is unclear
-        except sr.RequestError:
-            return "Speech recognition service unavailable."  # If API request fails
+    """Capture audio using Sounddevice and process it with SpeechRecognition."""
+    recognizer = sr.Recognizer()
+    
+    duration = 5  # Record for 5 seconds
+    sample_rate = 44100  # Audio sample rate
+    st.write("Listening...")
+
+    try:
+        # Record audio using Sounddevice
+        audio_data = sd.rec(int(duration * sample_rate), samplerate=sample_rate, channels=1, dtype=np.int16)
+        sd.wait()  # Wait for recording to complete
+
+        # Convert numpy array to SpeechRecognition format
+        audio = sr.AudioData(audio_data.tobytes(), sample_rate, 2)
+        return recognizer.recognize_google(audio)
+    
+    except sr.UnknownValueError:
+        return "Could not understand. Please try again."
+    
+    except sr.RequestError:
+        return "Speech recognition service unavailable."
+
 
 # --------------------------- MAIN APPLICATION (STREAMLIT UI) --------------------------- #
 
