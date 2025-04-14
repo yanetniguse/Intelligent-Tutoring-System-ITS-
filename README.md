@@ -52,7 +52,10 @@ streamlit run its-tutor.py
 - Try typing the answer instead.
 
 ## 👥 Contributors
-- **Yanet Niguse** - Developer
+**Yanet Niguse** - @yanetniguse
+**James Otieno **- @jayotieno
+Dhruv Pokhariyal - @P0lcahontas
+Kwame Lucheveli - @luche3002
 
 ## 📜 License
 This project is **open-source** under the MIT License.
