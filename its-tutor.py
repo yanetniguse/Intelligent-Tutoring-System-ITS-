@@ -37,6 +37,7 @@ def init_db():
     c.execute("INSERT OR IGNORE INTO progress (id, correct, incorrect) VALUES (1, 0, 0)")
     conn.commit()  # Save changes to the database
     conn.close()  # Close the database connection
+    # Ensure the database is initialized with a default progress record to avoid errors later.
 
 def update_db():
     """Update the user's progress (correct and incorrect answers) in the database."""
@@ -81,6 +82,7 @@ def get_next_question():
         return random.choice(hard_questions)
     else:
         return random.choice(easy_questions + multiple_choice)
+    #Dynamically adjust question difficulty based on the user's performance.
 
 # --------------------------- SPEECH RECOGNITION --------------------------- #
 # Allows users to speak their answers instead of typing
@@ -175,6 +177,7 @@ def main():
         
         # Refresh the Streamlit UI
         st.rerun()
+        #Refresh the UI to display the next question and updated progress immediately.
     
     # --------------------------- DISPLAY SCORE --------------------------- #
     
