@@ -25,7 +25,7 @@ if "question" not in st.session_state:
 # The database stores user progress, so the system remembers performance between sessions
 
 def init_db():
-    """Initialize the database and create the 'progress' table if it does not exist."""
+    """Initialize the database and  create the 'progress' table if it does not exist."""
     conn = sqlite3.connect("student_progress.db")  # Connect to SQLite database
     c = conn.cursor()  # Create a cursor to execute SQL commands
     # Create a table to store user progress if it does not already exist
